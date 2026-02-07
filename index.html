@@ -3,25 +3,25 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Prompt Depot — 100+ Expert AI Prompts for ChatGPT, Claude & Midjourney</title>
-<meta name="description" content="Free library of 100+ battle-tested AI prompts organized by category. Copy-paste prompts for marketing, coding, writing, business, image generation & productivity.">
-<meta name="keywords" content="AI prompts, ChatGPT prompts, Claude prompts, Midjourney prompts, prompt engineering, prompt library, AI tools">
+<title>Prompt Depot — 500+ Expert AI Prompts for ChatGPT, Claude & Midjourney</title>
+<meta name="description" content="Free library of 500+ battle-tested AI prompts organized by 13 categories. Copy-paste prompts for marketing, coding, writing, real estate, YouTube, e-commerce, resume, social media & more.">
+<meta name="keywords" content="AI prompts, ChatGPT prompts, Claude prompts, Midjourney prompts, prompt engineering, prompt library, AI tools, real estate prompts, YouTube prompts, e-commerce prompts, resume prompts">
 <meta name="author" content="Prompt Depot">
 <meta name="robots" content="index, follow">
-<link rel="canonical" href="https://Prompt Depot.site/">
+<link rel="canonical" href="https://promptdepot.org/">
 <!-- Open Graph -->
 <meta property="og:type" content="website">
-<meta property="og:title" content="Prompt Depot — 100+ Expert AI Prompts">
-<meta property="og:description" content="Free library of 100+ battle-tested AI prompts for ChatGPT, Claude & Midjourney. Copy, paste, get results.">
-<meta property="og:url" content="https://Prompt Depot.site/">
+<meta property="og:title" content="Prompt Depot — 500+ Expert AI Prompts">
+<meta property="og:description" content="Free library of 500+ battle-tested AI prompts for ChatGPT, Claude & Midjourney. 13 categories. Copy, paste, get results.">
+<meta property="og:url" content="https://promptdepot.org/">
 <meta property="og:site_name" content="Prompt Depot">
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Prompt Depot — 100+ Expert AI Prompts">
-<meta name="twitter:description" content="Free library of 100+ battle-tested AI prompts. Copy, paste, get results.">
+<meta name="twitter:title" content="Prompt Depot — 500+ Expert AI Prompts">
+<meta name="twitter:description" content="Free library of 500+ battle-tested AI prompts. 13 categories. Copy, paste, get results.">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#0a0a0f;--surface:#12121a;--card:#1a1a2e;--border:#2a2a3e;--text:#e0e0e8;--muted:#8888a0;--accent:#6c5ce7;--accent2:#00cec9;--accent3:#fd79a8;--accent4:#fdcb6e;--accent5:#55efc4;--accent6:#74b9ff;--glow:rgba(108,92,231,0.3);--radius:12px}
+:root{--bg:#0a0a0f;--surface:#12121a;--card:#1a1a2e;--border:#2a2a3e;--text:#e0e0e8;--muted:#8888a0;--accent:#6c5ce7;--accent2:#00cec9;--accent3:#fd79a8;--accent4:#fdcb6e;--accent5:#55efc4;--accent6:#74b9ff;--glow:rgba(108,92,231,0.3);--radius:12px;--realestate:#e17055;--youtube:#d63031;--ecommerce:#00b894;--resume:#0984e3;--socialmgmt:#e84393;--student:#6c5ce7;--startup:#fdcb6e}
 html{scroll-behavior:smooth}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden}
 a{color:var(--accent2);text-decoration:none}
@@ -30,9 +30,11 @@ a:hover{text-decoration:underline}
 /* NAV */
 nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(10,10,15,0.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 2rem;height:60px;display:flex;align-items:center;justify-content:space-between}
 .nav-logo{font-size:1.3rem;font-weight:800;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.nav-links{display:flex;gap:1.5rem;flex-wrap:wrap}
+.nav-links{display:flex;gap:1.5rem;flex-wrap:wrap;align-items:center}
 .nav-links a{color:var(--muted);font-size:.85rem;font-weight:500;transition:color .2s}
 .nav-links a:hover{color:var(--text);text-decoration:none}
+.nav-pro-btn{background:linear-gradient(135deg,var(--accent),#8b5cf6);color:#fff!important;padding:.35rem .85rem;border-radius:8px;font-weight:700;font-size:.8rem!important;transition:all .2s!important}
+.nav-pro-btn:hover{transform:translateY(-1px);box-shadow:0 4px 15px var(--glow)}
 .hamburger{display:none;background:none;border:none;color:var(--text);font-size:1.5rem;cursor:pointer}
 
 /* HERO */
@@ -47,7 +49,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(10,10,15,0.9
 .hero-stats .stat-label{font-size:.8rem;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
 
 /* CATEGORY NAV */
-.cat-nav{display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap;padding:1rem 2rem 2rem;max-width:900px;margin:0 auto}
+.cat-nav{display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap;padding:1rem 2rem 2rem;max-width:1100px;margin:0 auto}
 .cat-btn{padding:.5rem 1.1rem;border-radius:8px;border:1px solid var(--border);background:var(--surface);color:var(--muted);font-size:.85rem;cursor:pointer;transition:all .2s;font-weight:500}
 .cat-btn:hover,.cat-btn.active{border-color:var(--accent);color:var(--accent);background:rgba(108,92,231,.08)}
 
@@ -71,6 +73,15 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(10,10,15,0.9
 .prompt-card .meta{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.5rem}
 .prompt-card .meta span{font-size:.68rem;color:var(--muted);background:rgba(255,255,255,.05);padding:.15rem .4rem;border-radius:4px}
 
+/* PRO LOCKED CARDS */
+.prompt-card.pro-locked .prompt-text{filter:blur(5px);user-select:none;pointer-events:none}
+.prompt-card.pro-locked .copy-btn{display:none}
+.prompt-card.pro-locked::after{content:'';position:absolute;top:0;left:0;right:0;bottom:0;border-radius:var(--radius);background:linear-gradient(180deg,transparent 20%,rgba(10,10,15,.85) 100%);pointer-events:none}
+.pro-overlay{position:absolute;bottom:1rem;left:50%;transform:translateX(-50%);z-index:2;text-align:center;pointer-events:auto}
+.pro-overlay a{display:inline-block;padding:.5rem 1.2rem;background:linear-gradient(135deg,var(--accent),#8b5cf6);color:#fff;border-radius:8px;font-size:.8rem;font-weight:700;text-decoration:none;transition:all .2s}
+.pro-overlay a:hover{transform:translateY(-2px);box-shadow:0 4px 15px var(--glow);text-decoration:none}
+.pro-badge{display:inline-block;background:linear-gradient(135deg,var(--accent),#8b5cf6);color:#fff;font-size:.6rem;font-weight:800;padding:.15rem .45rem;border-radius:4px;margin-left:.5rem;vertical-align:middle;letter-spacing:.03em;text-transform:uppercase}
+
 /* CATEGORY COLORS */
 .cat-marketing .section-icon{background:rgba(253,121,168,.15);color:var(--accent3)}
 .cat-marketing .tag{background:rgba(253,121,168,.15);color:var(--accent3)}
@@ -84,25 +95,51 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(10,10,15,0.9
 .cat-image .tag{background:rgba(85,239,196,.15);color:var(--accent5)}
 .cat-productivity .section-icon{background:rgba(116,185,255,.15);color:var(--accent6)}
 .cat-productivity .tag{background:rgba(116,185,255,.15);color:var(--accent6)}
+.cat-realestate .section-icon{background:rgba(225,112,85,.15);color:var(--realestate)}
+.cat-realestate .tag{background:rgba(225,112,85,.15);color:var(--realestate)}
+.cat-youtube .section-icon{background:rgba(214,48,49,.15);color:var(--youtube)}
+.cat-youtube .tag{background:rgba(214,48,49,.15);color:var(--youtube)}
+.cat-ecommerce .section-icon{background:rgba(0,184,148,.15);color:var(--ecommerce)}
+.cat-ecommerce .tag{background:rgba(0,184,148,.15);color:var(--ecommerce)}
+.cat-resume .section-icon{background:rgba(9,132,227,.15);color:var(--resume)}
+.cat-resume .tag{background:rgba(9,132,227,.15);color:var(--resume)}
+.cat-socialmgmt .section-icon{background:rgba(232,67,147,.15);color:var(--socialmgmt)}
+.cat-socialmgmt .tag{background:rgba(232,67,147,.15);color:var(--socialmgmt)}
+.cat-student .section-icon{background:rgba(108,92,231,.15);color:var(--student)}
+.cat-student .tag{background:rgba(108,92,231,.15);color:var(--student)}
+.cat-startup .section-icon{background:rgba(253,203,110,.15);color:var(--startup)}
+.cat-startup .tag{background:rgba(253,203,110,.15);color:var(--startup)}
 
-/* PRO CTA */
+/* PRO CTA SECTION */
 .pro-section{padding:4rem 2rem;text-align:center}
-.pro-card{max-width:700px;margin:0 auto;background:linear-gradient(135deg,rgba(108,92,231,.12),rgba(0,206,201,.08));border:1px solid rgba(108,92,231,.3);border-radius:16px;padding:3rem 2rem;position:relative;overflow:hidden}
+.pro-card{max-width:800px;margin:0 auto;background:linear-gradient(135deg,rgba(108,92,231,.12),rgba(0,206,201,.08));border:1px solid rgba(108,92,231,.3);border-radius:16px;padding:3rem 2rem;position:relative;overflow:hidden}
 .pro-card::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle,rgba(108,92,231,.06),transparent 60%);animation:pulse 8s ease-in-out infinite}
 @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
 .pro-card h2{font-size:1.8rem;font-weight:800;margin-bottom:.75rem}
 .pro-card h2 .gradient{background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.pro-card p{color:var(--muted);margin-bottom:1.5rem;max-width:500px;margin-left:auto;margin-right:auto}
+.pro-card p{color:var(--muted);margin-bottom:1.5rem;max-width:600px;margin-left:auto;margin-right:auto}
 .pro-features{display:flex;flex-wrap:wrap;gap:.75rem;justify-content:center;margin-bottom:2rem}
 .pro-features span{background:rgba(255,255,255,.06);padding:.4rem .8rem;border-radius:8px;font-size:.82rem;color:var(--text)}
-.pro-btn{display:inline-block;padding:.85rem 2.5rem;background:linear-gradient(135deg,var(--accent),#8b5cf6);color:#fff;border:none;border-radius:10px;font-size:1rem;font-weight:700;cursor:pointer;transition:all .2s;text-decoration:none}
+.pro-btn{display:inline-block;padding:.85rem 2.5rem;background:linear-gradient(135deg,var(--accent),#8b5cf6);color:#fff;border:none;border-radius:10px;font-size:1.05rem;font-weight:700;cursor:pointer;transition:all .2s;text-decoration:none}
 .pro-btn:hover{transform:translateY(-2px);box-shadow:0 8px 25px var(--glow);text-decoration:none}
 .pro-price{font-size:.85rem;color:var(--muted);margin-top:.75rem}
+.pro-guarantee{font-size:.78rem;color:var(--muted);margin-top:.5rem}
+.pro-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin:2rem 0;text-align:left}
+.pro-grid-item{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);border-radius:10px;padding:1rem}
+.pro-grid-item h4{font-size:.9rem;margin-bottom:.3rem}
+.pro-grid-item p{font-size:.78rem;color:var(--muted);margin:0}
+
+/* FLOATING PRO BAR */
+.floating-pro{position:fixed;bottom:0;left:0;right:0;z-index:99;background:rgba(10,10,15,.95);backdrop-filter:blur(20px);border-top:1px solid rgba(108,92,231,.3);padding:.75rem 2rem;display:flex;align-items:center;justify-content:center;gap:1.5rem;transform:translateY(100%);transition:transform .3s ease}
+.floating-pro.visible{transform:translateY(0)}
+.floating-pro p{color:var(--text);font-size:.85rem;font-weight:600;margin:0}
+.floating-pro p span{color:var(--accent2)}
+.floating-pro a{display:inline-block;padding:.5rem 1.5rem;background:linear-gradient(135deg,var(--accent),#8b5cf6);color:#fff;border-radius:8px;font-size:.85rem;font-weight:700;text-decoration:none;white-space:nowrap}
 
 /* FOOTER */
 footer{padding:3rem 2rem;text-align:center;border-top:1px solid var(--border);margin-top:2rem}
 footer p{color:var(--muted);font-size:.82rem}
-footer .links{display:flex;gap:1.5rem;justify-content:center;margin-bottom:1rem}
+footer .links{display:flex;gap:1.5rem;justify-content:center;margin-bottom:1rem;flex-wrap:wrap}
 footer .links a{color:var(--muted);font-size:.82rem}
 
 /* SCROLLBAR */
@@ -117,6 +154,9 @@ footer .links a{color:var(--muted);font-size:.82rem}
 .search-wrap{position:relative}
 .search-wrap::before{content:'🔍';position:absolute;left:2.7rem;top:50%;transform:translateY(-50%);font-size:.85rem}
 
+/* NEW BADGE */
+.new-badge{display:inline-block;background:linear-gradient(135deg,var(--accent2),#00b894);color:#000;font-size:.6rem;font-weight:800;padding:.15rem .45rem;border-radius:4px;margin-left:.5rem;vertical-align:middle;letter-spacing:.03em;text-transform:uppercase}
+
 /* MOBILE */
 @media(max-width:768px){
   .nav-links{display:none;position:absolute;top:60px;left:0;right:0;background:var(--bg);padding:1rem;flex-direction:column;border-bottom:1px solid var(--border)}
@@ -126,6 +166,14 @@ footer .links a{color:var(--muted);font-size:.82rem}
   .prompts-grid{grid-template-columns:1fr}
   .hero-stats{gap:1rem}
   .prompt-card .copy-btn{opacity:1}
+  .cat-nav{gap:.4rem}
+  .cat-btn{font-size:.75rem;padding:.4rem .8rem}
+  .floating-pro{flex-direction:column;gap:.5rem;padding:.6rem 1rem}
+  .floating-pro p{font-size:.78rem}
+  .pro-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:480px){
+  .pro-grid{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -141,18 +189,21 @@ footer .links a{color:var(--muted);font-size:.82rem}
     <a href="#business">Business</a>
     <a href="#image">Image Gen</a>
     <a href="#productivity">Productivity</a>
-    <a href="#pro" style="color:var(--accent)">🔥 Pro Pack</a>
+    <a href="#realestate">Real Estate</a>
+    <a href="#youtube">YouTube</a>
+    <a href="#ecommerce">E-commerce</a>
+    <a href="#pro" class="nav-pro-btn">⚡ Pro Pack — $9</a>
   </div>
 </nav>
 
 <section class="hero">
-  <span class="hero-badge">✨ Free & Open Prompt Library</span>
+  <span class="hero-badge">✨ Free & Pro Prompt Library</span>
   <h1>Stop Writing <span class="gradient">Bad AI Prompts</span></h1>
-  <p>100+ battle-tested prompts for ChatGPT, Claude & Midjourney — organized by use case, ready to copy-paste. Get better results in seconds.</p>
+  <p>500+ battle-tested prompts for ChatGPT, Claude & Midjourney — organized by 13 use cases, ready to copy-paste. Free prompts + a Pro Pack for power users.</p>
   <div class="hero-stats">
-    <div class="stat"><div class="stat-num">100+</div><div class="stat-label">Prompts</div></div>
-    <div class="stat"><div class="stat-num">6</div><div class="stat-label">Categories</div></div>
-    <div class="stat"><div class="stat-num">0</div><div class="stat-label">Cost</div></div>
+    <div class="stat"><div class="stat-num">500+</div><div class="stat-label">Prompts</div></div>
+    <div class="stat"><div class="stat-num">13</div><div class="stat-label">Categories</div></div>
+    <div class="stat"><div class="stat-num">$0</div><div class="stat-label">Free Tier</div></div>
   </div>
 </section>
 
@@ -168,6 +219,13 @@ footer .links a{color:var(--muted);font-size:.82rem}
   <button class="cat-btn" onclick="scrollCat('business',this)">📊 Business</button>
   <button class="cat-btn" onclick="scrollCat('image',this)">🎨 Image Gen</button>
   <button class="cat-btn" onclick="scrollCat('productivity',this)">⚡ Productivity</button>
+  <button class="cat-btn" onclick="scrollCat('realestate',this)">🏠 Real Estate</button>
+  <button class="cat-btn" onclick="scrollCat('youtube',this)">🎬 YouTube</button>
+  <button class="cat-btn" onclick="scrollCat('ecommerce',this)">🛒 E-commerce</button>
+  <button class="cat-btn" onclick="scrollCat('resume',this)">📄 Resume</button>
+  <button class="cat-btn" onclick="scrollCat('socialmgmt',this)">📱 Social Media</button>
+  <button class="cat-btn" onclick="scrollCat('student',this)">🎓 Students</button>
+  <button class="cat-btn" onclick="scrollCat('startup',this)">🚀 Startup</button>
 </div>
 
 <!-- ==================== MARKETING ==================== -->
@@ -1087,106 +1145,4 @@ Meeting notes:
       <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
       <span class="tag">Finance</span>
       <h3>Personal Budget Optimizer</h3>
-      <div class="prompt-text">Help me optimize my personal finances. Monthly income: [amount]. Current expenses: [list major categories and amounts]. Financial goals: [e.g., save for house, pay off debt, invest]. Analyze: 1) Where I'm overspending vs benchmarks for my income level, 2) The 50/30/20 rule applied to my numbers, 3) Top 3 expenses to cut or reduce (with specific alternatives), 4) Savings allocation strategy (emergency fund → debt → investing), 5) Simple investment approach for my situation, 6) Automation setup (what to auto-transfer where, on which dates), 7) One financial "quick win" I can do this week. Be practical — I know I should spend less on coffee, give me real advice.</div>
-      <div class="meta"><span>ChatGPT</span><span>Claude</span><span>Finance</span></div>
-    </div>
-
-    <div class="prompt-card" data-cat="productivity">
-      <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
-      <span class="tag">Travel</span>
-      <h3>Trip Planner (Detailed Itinerary)</h3>
-      <div class="prompt-text">Plan a [X]-day trip to [destination]. Travelers: [who]. Budget: [amount per person]. Travel style: [backpacker/mid-range/luxury]. Interests: [list]. Must-sees: [if any]. Create: 1) Day-by-day itinerary with morning/afternoon/evening activities, 2) Transportation between activities (be specific — which bus, which metro line), 3) Restaurant recommendations for each meal (with cuisine type and price range), 4) Accommodation recommendations (3 options at different price points), 5) Money-saving tips specific to this destination, 6) Things tourists always do that aren't worth it, 7) Hidden gems locals recommend, 8) Packing list specific to the destination and season, 9) Critical info: visa, SIM card, tipping culture, scams to avoid.</div>
-      <div class="meta"><span>ChatGPT</span><span>Claude</span><span>Travel</span></div>
-    </div>
-
-    <div class="prompt-card" data-cat="productivity">
-      <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
-      <span class="tag">Thinking</span>
-      <h3>Devil's Advocate / Idea Stress-Tester</h3>
-      <div class="prompt-text">I have this idea/plan/belief: [describe it]. Be my devil's advocate. Your job is to find every weakness, not to encourage me. Specifically: 1) What are the 5 strongest arguments AGAINST this? 2) What am I not seeing because of my own biases? (name the specific cognitive bias), 3) Under what conditions would this completely fail? 4) Who would disagree with me and why? (steelman their position), 5) What's the opportunity cost — what am I giving up by pursuing this? 6) If this fails, what's the damage? (realistic worst case), 7) After all that: is it still worth pursuing? If yes, what's the #1 risk to mitigate first?</div>
-      <div class="meta"><span>Claude</span><span>Critical Thinking</span></div>
-    </div>
-
-    <div class="prompt-card" data-cat="productivity">
-      <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
-      <span class="tag">Writing</span>
-      <h3>Daily Journal / Reflection Prompter</h3>
-      <div class="prompt-text">Act as my journaling coach. Based on what I share about my day, ask me thoughtful follow-up questions that help me process and grow. Today: [describe your day — what happened, how you feel, what's on your mind]. Give me: 1) One observation about what I shared (mirror it back — sometimes we don't see our own patterns), 2) One question about my emotions (not what happened, but how I feel about it), 3) One question connecting today to my bigger goals or values, 4) One reframe if I'm being too hard on myself or catastrophizing, 5) One prompt for tomorrow: "Tomorrow, try noticing [X]" or "Tomorrow, experiment with [Y]." Keep it concise. No therapy-speak. Talk to me like a wise friend.</div>
-      <div class="meta"><span>Claude</span><span>Self-Development</span></div>
-    </div>
-
-  </div>
-</div>
-
-<!-- ==================== PRO SECTION ==================== -->
-<div class="pro-section" id="pro">
-  <div class="pro-card">
-    <h2>Unlock the <span class="gradient">Pro Prompt Pack</span></h2>
-    <p>50+ advanced prompts with fill-in-the-blank templates, prompt chains, and system prompts that the free library doesn't include.</p>
-    <div class="pro-features">
-      <span>📋 Fill-in Templates</span>
-      <span>🔗 Prompt Chains</span>
-      <span>🤖 System Prompts</span>
-      <span>🔄 Regular Updates</span>
-      <span>💬 Community Access</span>
-    </div>
-    <a href="#" class="pro-btn" id="pro-cta">Get the Pro Pack — $9</a>
-    <p class="pro-price">One-time purchase · Instant access · Free updates forever</p>
-  </div>
-</div>
-
-<!-- FOOTER -->
-<footer>
-  <div class="links">
-    <a href="#marketing">Marketing</a>
-    <a href="#coding">Coding</a>
-    <a href="#writing">Writing</a>
-    <a href="#business">Business</a>
-    <a href="#image">Image Gen</a>
-    <a href="#productivity">Productivity</a>
-  </div>
-  <p>© 2026 Prompt Depot. Built for people who want better AI outputs.</p>
-  <p style="margin-top:.5rem;font-size:.75rem">Some links may be affiliate links. We only recommend tools we actually use.</p>
-</footer>
-
-<script>
-function copyPrompt(btn){
-  const text=btn.parentElement.querySelector('.prompt-text').textContent;
-  navigator.clipboard.writeText(text).then(()=>{
-    btn.textContent='Copied!';
-    btn.style.background='#00cec9';
-    setTimeout(()=>{btn.textContent='Copy';btn.style.background=''},1500);
-  });
-}
-
-function scrollCat(id,btn){
-  document.querySelectorAll('.cat-btn').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  document.getElementById(id).scrollIntoView({behavior:'smooth',block:'start'});
-}
-
-function showAll(btn){
-  document.querySelectorAll('.cat-btn').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  document.querySelectorAll('.section').forEach(s=>s.style.display='');
-}
-
-function filterPrompts(q){
-  q=q.toLowerCase();
-  document.querySelectorAll('.prompt-card').forEach(card=>{
-    const text=(card.querySelector('h3').textContent+' '+card.querySelector('.prompt-text').textContent+' '+card.dataset.cat).toLowerCase();
-    card.style.display=text.includes(q)?'':'none';
-  });
-}
-
-// Smooth offset for fixed nav
-document.querySelectorAll('a[href^="#"]').forEach(a=>{
-  a.addEventListener('click',e=>{
-    const t=document.querySelector(a.getAttribute('href'));
-    if(t){e.preventDefault();window.scrollTo({top:t.offsetTop-70,behavior:'smooth'});}
-  });
-});
-</script>
-
-</body>
-</html>
+      <div class="prompt-text">Help me optimize my personal finances. Monthly income: [amount]. Current expenses: [list major categories and amounts]. Financial goals: [e.g., save for house, pay off debt, invest]. Analyze: 1) Where I'm overspending vs benchmarks for my income level, 2) The 50/30/20 rule applied to my numbers, 3) Top 3 expenses to cut or reduce (with specific alternatives), 4) Savings allocation strategy (emergency fund → debt → investing), 5) Simple investment approach for my situation
