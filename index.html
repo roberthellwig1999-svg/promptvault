@@ -3,361 +3,345 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Rob's Trading Command Center</title>
-<style>
-#login-screen{position:fixed;top:0;left:0;width:100%;height:100%;background:#0d1117;z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column}
-#login-screen.hidden{display:none}
-#login-box{background:#161b22;border:1px solid #30363d;border-radius:12px;padding:40px;text-align:center;max-width:400px;width:90%}
-#login-box h2{font-size:1.5rem;margin-bottom:8px;background:linear-gradient(90deg,#00ff88,#00d4ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-#login-box p{color:#8b949e;font-size:.85rem;margin-bottom:24px}
-#login-box input{width:100%;padding:12px 16px;background:#0d1117;border:1px solid #30363d;border-radius:8px;color:#c9d1d9;font-size:1rem;margin-bottom:16px;outline:none}
-#login-box input:focus{border-color:#00d4ff;box-shadow:0 0 10px rgba(0,212,255,.15)}
-#login-box button{width:100%;padding:12px;background:linear-gradient(90deg,#00ff88,#00d4ff);border:none;border-radius:8px;color:#0d1117;font-size:1rem;font-weight:700;cursor:pointer;transition:opacity .2s}
-#login-box button:hover{opacity:.9}
-#login-error{color:#ff4757;font-size:.8rem;margin-top:8px;display:none}
-</style>
+<title>Trading Command Center | promptdepot.org</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#0d1117;--card:#161b22;--border:#30363d;--text:#c9d1d9;--dim:#8b949e;--green:#00ff88;--cyan:#00d4ff;--red:#ff4757;--yellow:#ffd93d;--orange:#ff9f43;--accent:#00ff88}
-body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,-apple-system,sans-serif;min-height:100vh;overflow-x:hidden}
-a{color:var(--cyan)}
-.header{background:linear-gradient(135deg,#0d1117 0%,#161b22 100%);border-bottom:1px solid var(--border);padding:16px 24px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100;backdrop-filter:blur(10px)}
-.header h1{font-size:1.4rem;font-weight:700;background:linear-gradient(90deg,var(--green),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:1px}
-.header .clock{font-family:'Courier New',monospace;color:var(--cyan);font-size:1rem;text-align:right}
-.header .clock .date{color:var(--dim);font-size:.8rem}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(380px,1fr));gap:16px;padding:20px 24px;max-width:1800px;margin:0 auto}
-.card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:18px;transition:border-color .3s,box-shadow .3s}
-.card:hover{border-color:#484f58;box-shadow:0 0 20px rgba(0,255,136,.04)}
-.card-title{display:flex;align-items:center;gap:8px;margin-bottom:14px;font-size:.95rem;font-weight:600;color:#e6edf3;text-transform:uppercase;letter-spacing:.5px}
-.card-title .icon{font-size:1.1rem}
-.status-dot{width:8px;height:8px;border-radius:50%;display:inline-block;animation:pulse 2s infinite}
-.status-dot.green{background:var(--green);box-shadow:0 0 6px var(--green)}
-.status-dot.yellow{background:var(--yellow);box-shadow:0 0 6px var(--yellow)}
-.status-dot.red{background:var(--red);box-shadow:0 0 6px var(--red)}
-.status-dot.orange{background:var(--orange);box-shadow:0 0 6px var(--orange)}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
-.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px}
-.stat{background:#0d1117;border:1px solid var(--border);border-radius:6px;padding:10px;text-align:center}
-.stat .label{font-size:.7rem;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
-.stat .value{font-size:1.1rem;font-weight:700;color:var(--green);font-family:'Courier New',monospace}
-.stat .value.cyan{color:var(--cyan)}
-.stat .value.yellow{color:var(--yellow)}
-.stat .value.red{color:var(--red)}
-.stat .value.white{color:#e6edf3}
-.info-row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #21262d;font-size:.85rem}
-.info-row:last-child{border:none}
-.info-row .k{color:var(--dim)}
-.info-row .v{color:var(--text);font-family:'Courier New',monospace;font-size:.82rem}
-.wallet{font-size:.7rem;color:var(--dim);word-break:break-all;background:#0d1117;padding:6px 8px;border-radius:4px;margin-top:4px;border:1px solid var(--border)}
-.wallet span{color:var(--cyan)}
-table{width:100%;border-collapse:collapse;font-size:.82rem}
-th{text-align:left;color:var(--dim);font-weight:600;padding:8px 6px;border-bottom:1px solid var(--border);font-size:.72rem;text-transform:uppercase;letter-spacing:.5px}
-td{padding:8px 6px;border-bottom:1px solid #21262d;font-family:'Courier New',monospace}
-.gain{color:var(--green)}
-.loss{color:var(--red)}
-.neutral{color:var(--yellow)}
-.badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:.7rem;font-weight:600;text-transform:uppercase}
-.badge-green{background:rgba(0,255,136,.12);color:var(--green);border:1px solid rgba(0,255,136,.25)}
-.badge-yellow{background:rgba(255,217,61,.12);color:var(--yellow);border:1px solid rgba(255,217,61,.25)}
-.badge-red{background:rgba(255,71,87,.12);color:var(--red);border:1px solid rgba(255,71,87,.25)}
-.badge-cyan{background:rgba(0,212,255,.12);color:var(--cyan);border:1px solid rgba(0,212,255,.25)}
-.badge-orange{background:rgba(255,159,67,.12);color:var(--orange);border:1px solid rgba(255,159,67,.25)}
-.sentiment-bar{display:flex;height:24px;border-radius:4px;overflow:hidden;margin:8px 0}
-.sentiment-bar div{display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:700}
-.sentiment-bar .bull{background:rgba(0,255,136,.3);color:var(--green)}
-.sentiment-bar .neut{background:rgba(255,217,61,.2);color:var(--yellow)}
-.sentiment-bar .bear{background:rgba(255,71,87,.25);color:var(--red)}
-.gauge{text-align:center;padding:10px 0}
-.gauge-label{font-size:.7rem;color:var(--dim);text-transform:uppercase;margin-bottom:6px}
-.gauge-value{font-size:1.8rem;font-weight:800}
-.mover{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid #21262d;font-size:.85rem}
-.mover:last-child{border:none}
-.mover .ticker{font-weight:700;color:#e6edf3;font-family:'Courier New',monospace}
-.tweet-alert{background:#0d1117;border:1px solid var(--border);border-radius:6px;padding:10px;margin-bottom:8px;font-size:.82rem}
-.tweet-alert .handle{color:var(--cyan);font-weight:600}
-.tweet-alert .time{color:var(--dim);font-size:.7rem;float:right}
-.crypto-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid #21262d}
-.crypto-row:last-child{border:none}
-.crypto-row .name{font-weight:700;font-size:.95rem}
-.crypto-row .symbol{color:var(--dim);font-size:.75rem}
-.crypto-row .price{font-family:'Courier New',monospace;font-size:1.1rem;font-weight:700;color:var(--green)}
-.crypto-row .change{font-size:.8rem;font-family:'Courier New',monospace}
-.param-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;margin-top:10px}
-.param{background:#0d1117;border:1px solid var(--border);border-radius:5px;padding:8px;font-size:.8rem}
-.param .pk{color:var(--dim);font-size:.7rem}
-.param .pv{color:var(--cyan);font-weight:600;font-family:'Courier New',monospace}
-.sys-row{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid #21262d;font-size:.85rem}
-.sys-row:last-child{border:none}
-.sys-row .sys-name{flex:1}
-.refresh-note{text-align:center;font-size:.7rem;color:var(--dim);margin-top:8px}
-.backtest-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0}
-.wide-card{grid-column:span 2}
-@media(max-width:900px){.grid{grid-template-columns:1fr}.wide-card{grid-column:span 1}}
+:root{--bg:#0a0e17;--card:#111827;--border:#1e293b;--accent:#00d4ff;--accent2:#7c3aed;--green:#10b981;--red:#ef4444;--yellow:#f59e0b;--text:#e2e8f0;--muted:#64748b;--glow:0 0 20px rgba(0,212,255,.15)}
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap');
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse at 20% 50%,rgba(0,212,255,.04) 0%,transparent 50%),radial-gradient(ellipse at 80% 20%,rgba(124,58,237,.04) 0%,transparent 50%);pointer-events:none;z-index:0}
+
+/* Scrollbar */
+::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+
+/* Header */
+.header{position:sticky;top:0;z-index:100;background:rgba(10,14,23,.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between}
+.logo{display:flex;align-items:center;gap:.75rem}
+.logo-icon{width:36px;height:36px;border-radius:8px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;color:#fff;font-family:'JetBrains Mono'}
+.logo-text{font-size:1.1rem;font-weight:700;letter-spacing:-.02em}
+.logo-text span{color:var(--accent)}
+.header-right{display:flex;align-items:center;gap:1rem}
+.paper-badge{background:linear-gradient(135deg,var(--yellow),#d97706);color:#000;font-size:.7rem;font-weight:700;padding:.35rem .75rem;border-radius:4px;letter-spacing:.08em;font-family:'JetBrains Mono';animation:pulse-badge 2s infinite}
+@keyframes pulse-badge{0%,100%{box-shadow:0 0 0 0 rgba(245,158,11,.4)}50%{box-shadow:0 0 12px 4px rgba(245,158,11,.2)}}
+.live-dot{width:8px;height:8px;border-radius:50%;background:var(--green);animation:blink 1.5s infinite;display:inline-block;margin-right:6px}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.status-text{font-size:.8rem;color:var(--muted);font-family:'JetBrains Mono'}
+
+/* Grid */
+.dashboard{padding:1.5rem;display:grid;grid-template-columns:repeat(12,1fr);gap:1.25rem;max-width:1600px;margin:0 auto;position:relative;z-index:1}
+
+/* Cards */
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.5rem;position:relative;overflow:hidden;transition:all .3s;animation:fadeIn .6s ease-out both}
+.card:hover{border-color:rgba(0,212,255,.3);box-shadow:var(--glow)}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--accent),transparent);opacity:0;transition:opacity .3s}
+.card:hover::before{opacity:1}
+.card-title{font-size:.75rem;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:1rem;display:flex;align-items:center;gap:.5rem}
+.card-title .icon{font-size:1rem}
+
+@keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+
+/* Portfolio Overview */
+.portfolio{grid-column:span 8}
+.equity-row{display:flex;align-items:flex-end;gap:2rem;flex-wrap:wrap;margin-bottom:1.5rem}
+.equity-main .label{font-size:.8rem;color:var(--muted);margin-bottom:.25rem}
+.equity-main .value{font-size:2.5rem;font-weight:700;font-family:'JetBrains Mono';letter-spacing:-.02em}
+.equity-stat .label{font-size:.7rem;color:var(--muted);margin-bottom:.15rem}
+.equity-stat .value{font-size:1.3rem;font-weight:600;font-family:'JetBrains Mono'}
+.positive{color:var(--green)}.negative{color:var(--red)}
+.allocation{display:flex;gap:1rem;flex-wrap:wrap}
+.alloc-bar{height:6px;border-radius:3px;display:flex;overflow:hidden;margin-bottom:.75rem}
+.alloc-bar div{height:100%;transition:width 1s ease}
+.alloc-item{display:flex;align-items:center;gap:.4rem;font-size:.8rem;color:var(--muted)}
+.alloc-dot{width:8px;height:8px;border-radius:50%}
+
+/* Metrics Grid */
+.metrics{grid-column:span 4}
+.metric-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+.metric-box{background:rgba(0,0,0,.3);border:1px solid var(--border);border-radius:8px;padding:1rem;text-align:center}
+.metric-box .val{font-size:1.4rem;font-weight:700;font-family:'JetBrains Mono'}
+.metric-box .lbl{font-size:.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-top:.25rem}
+
+/* Table */
+.positions{grid-column:span 12}
+.tbl-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:.85rem}
+th{text-align:left;padding:.75rem 1rem;border-bottom:1px solid var(--border);color:var(--muted);font-size:.7rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;white-space:nowrap}
+td{padding:.75rem 1rem;border-bottom:1px solid rgba(30,41,59,.5);font-family:'JetBrains Mono';font-size:.8rem;white-space:nowrap}
+tr:hover td{background:rgba(0,212,255,.03)}
+.ticker{font-weight:700;color:var(--accent)}
+.strategy-tag{font-size:.65rem;padding:.2rem .5rem;border-radius:3px;font-weight:600;background:rgba(124,58,237,.15);color:var(--accent2)}
+
+/* Signals */
+.signals{grid-column:span 6}
+.signal-list{display:flex;flex-direction:column;gap:.5rem;max-height:320px;overflow-y:auto}
+.signal{display:flex;align-items:center;gap:.75rem;padding:.65rem .85rem;background:rgba(0,0,0,.25);border-radius:8px;border:1px solid var(--border);font-size:.8rem;transition:all .3s}
+.signal:hover{border-color:rgba(0,212,255,.2)}
+.signal-type{font-size:.65rem;font-weight:700;padding:.2rem .5rem;border-radius:3px;font-family:'JetBrains Mono';min-width:40px;text-align:center}
+.signal-type.buy{background:rgba(16,185,129,.15);color:var(--green)}
+.signal-type.sell{background:rgba(239,68,68,.15);color:var(--red)}
+.signal-ticker{font-weight:700;font-family:'JetBrains Mono';min-width:50px}
+.signal-strategy{color:var(--muted);font-size:.7rem;flex:1}
+.signal-time{color:var(--muted);font-size:.7rem;font-family:'JetBrains Mono'}
+
+/* Strategy Cards */
+.strategies{grid-column:span 6}
+.strat-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+.strat-card{background:rgba(0,0,0,.25);border:1px solid var(--border);border-radius:8px;padding:1rem;transition:all .3s}
+.strat-card:hover{border-color:rgba(0,212,255,.2)}
+.strat-name{font-size:.8rem;font-weight:600;margin-bottom:.6rem}
+.strat-stats{display:flex;flex-direction:column;gap:.3rem}
+.strat-stat{display:flex;justify-content:space-between;font-size:.75rem}
+.strat-stat .k{color:var(--muted)}
+.strat-stat .v{font-family:'JetBrains Mono';font-weight:600}
+.strat-bar{height:3px;border-radius:2px;background:var(--border);margin-top:.5rem;overflow:hidden}
+.strat-bar-fill{height:100%;border-radius:2px;transition:width 1.5s ease}
+
+/* Mining */
+.mining{grid-column:span 6}
+.mining-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem}
+.mining-stat{text-align:center;padding:.75rem;background:rgba(0,0,0,.25);border-radius:8px;border:1px solid var(--border)}
+.mining-stat .val{font-size:1.2rem;font-weight:700;font-family:'JetBrains Mono'}
+.mining-stat .lbl{font-size:.65rem;color:var(--muted);margin-top:.2rem;text-transform:uppercase;letter-spacing:.05em}
+.gpu-name{font-size:.85rem;font-family:'JetBrains Mono';color:var(--accent);margin-bottom:1rem;display:flex;align-items:center;gap:.5rem}
+.gpu-online{color:var(--green);font-size:.7rem;font-weight:600;background:rgba(16,185,129,.1);padding:.15rem .5rem;border-radius:3px}
+
+/* Sentiment */
+.sentiment{grid-column:span 6}
+.gauge-wrap{display:flex;align-items:center;justify-content:center;padding:1rem 0}
+.gauge{position:relative;width:180px;height:100px;overflow:hidden}
+.gauge-bg{width:180px;height:90px;border-radius:90px 90px 0 0;background:conic-gradient(from 180deg at 50% 100%,var(--red) 0deg,var(--yellow) 90deg,var(--green) 180deg);position:relative}
+.gauge-mask{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:140px;height:70px;border-radius:70px 70px 0 0;background:var(--card)}
+.gauge-needle{position:absolute;bottom:0;left:50%;width:2px;height:70px;background:var(--text);transform-origin:bottom center;transform:rotate(25deg);transition:transform 1.5s ease;border-radius:1px}
+.gauge-center{position:absolute;bottom:-4px;left:50%;transform:translateX(-50%);width:10px;height:10px;border-radius:50%;background:var(--text)}
+.gauge-labels{display:flex;justify-content:space-between;font-size:.65rem;color:var(--muted);margin-top:.5rem;font-family:'JetBrains Mono'}
+.gauge-value{text-align:center;font-size:1.5rem;font-weight:700;font-family:'JetBrains Mono';margin-top:.5rem}
+.gauge-value span{font-size:.8rem;color:var(--muted);font-weight:400}
+.sentiment-note{text-align:center;font-size:.7rem;color:var(--muted);margin-top:.5rem;font-style:italic}
+
+/* Footer */
+.footer{text-align:center;padding:2rem;color:var(--muted);font-size:.75rem;position:relative;z-index:1}
+.footer a{color:var(--accent);text-decoration:none}
+
+/* Responsive */
+@media(max-width:1024px){
+.dashboard{grid-template-columns:1fr}
+.portfolio,.metrics,.positions,.signals,.strategies,.mining,.sentiment{grid-column:span 1}
+.equity-main .value{font-size:2rem}
+}
+@media(max-width:640px){
+.header{padding:.75rem 1rem;flex-wrap:wrap;gap:.5rem}
+.dashboard{padding:1rem;gap:1rem}
+.card{padding:1rem}
+.strat-grid{grid-template-columns:1fr}
+.mining-grid{grid-template-columns:1fr}
+.metric-grid{grid-template-columns:1fr 1fr}
+}
+
+/* Animations */
+.card:nth-child(1){animation-delay:.05s}.card:nth-child(2){animation-delay:.1s}.card:nth-child(3){animation-delay:.15s}
+.card:nth-child(4){animation-delay:.2s}.card:nth-child(5){animation-delay:.25s}.card:nth-child(6){animation-delay:.3s}.card:nth-child(7){animation-delay:.35s}
+
+/* Scan line effect */
+.scanline{position:fixed;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,rgba(0,212,255,.08),transparent);animation:scan 8s linear infinite;pointer-events:none;z-index:1000}
+@keyframes scan{0%{top:-2px}100%{top:100vh}}
 </style>
 </head>
 <body>
-<div id="login-screen">
-<div id="login-box">
-<h2>🔒 Trading Command Center</h2>
-<p>Enter password to access dashboard</p>
-<input type="password" id="login-pw" placeholder="Password" onkeydown="if(event.key==='Enter')doLogin()">
-<button onclick="doLogin()">ACCESS DASHBOARD</button>
-<div id="login-error">Incorrect password. Try again.</div>
-</div>
-</div>
-<script>
-function doLogin(){
-const pw=document.getElementById('login-pw').value;
-if(pw==='stockking97'){
-document.getElementById('login-screen').classList.add('hidden');
-document.getElementById('dashboard').style.display='block';
-sessionStorage.setItem('auth','1');
-}else{
-document.getElementById('login-error').style.display='block';
-document.getElementById('login-pw').value='';
-}
-}
-if(sessionStorage.getItem('auth')==='1'){
-document.getElementById('login-screen').classList.add('hidden');
-}
-</script>
-<div id="dashboard" style="display:none">
-<div class="header">
-<h1>⚡ Rob's Trading Command Center</h1>
-<div class="clock"><div id="time"></div><div class="date" id="date"></div></div>
-</div>
-<div class="grid">
+<div class="scanline"></div>
 
-<!-- Mining Status -->
-<div class="card">
-<div class="card-title"><span class="icon">⛏️</span> Mining Status <span class="status-dot green"></span></div>
-<div class="info-row"><span class="k">GPU</span><span class="v">NVIDIA RTX 4060 Ti</span></div>
-<div class="info-row"><span class="k">Algorithm</span><span class="v">KawPow (RVN)</span></div>
-<div class="info-row"><span class="k">Pool</span><span class="v">unMineable → BTC Payout</span></div>
-<div class="info-row"><span class="k">Status</span><span class="v"><span class="badge badge-green">Mining Active</span></span></div>
-<div class="stat-grid" style="margin-top:12px">
-<div class="stat"><div class="label">Hashrate</div><div class="value">12.4 MH/s</div></div>
-<div class="stat"><div class="label">Temp</div><div class="value yellow">62°C</div></div>
-<div class="stat"><div class="label">Fan</div><div class="value cyan">68%</div></div>
-<div class="stat"><div class="label">Power</div><div class="value yellow">125W</div></div>
-<div class="stat"><div class="label">Accepted</div><div class="value">1,247</div></div>
-<div class="stat"><div class="label">Rejected</div><div class="value red">3</div></div>
-<div class="stat"><div class="label">Uptime</div><div class="value cyan">4d 7h 32m</div></div>
-<div class="stat"><div class="label">Daily Est.</div><div class="value">$1.85</div></div>
-<div class="stat"><div class="label">Monthly Est.</div><div class="value">$55.50</div></div>
-<div class="stat"><div class="label">Yearly Est.</div><div class="value">$675.25</div></div>
-</div>
-<div class="wallet" style="margin-top:10px">BTC: <span>bc1qat2g35l5xtxqpkrahgkagjmfggmpamvstxhat7</span></div>
-<div class="wallet">ETH: <span>0xC50Bf90319746cBaf205CD9775b5b9c48Fdf63c8</span></div>
-</div>
+<header class="header">
+  <div class="logo">
+    <div class="logo-icon">TC</div>
+    <div class="logo-text">Trading <span>Command Center</span></div>
+  </div>
+  <div class="header-right">
+    <div class="paper-badge">⚠ PAPER MODE</div>
+    <div class="status-text"><span class="live-dot"></span>SYSTEM ONLINE</div>
+  </div>
+</header>
 
-<!-- Trading Bot -->
-<div class="card">
-<div class="card-title"><span class="icon">🤖</span> Stock Trading Bot <span class="badge badge-yellow">Paper Mode</span></div>
-<div class="info-row"><span class="k">Strategy</span><span class="v">RS + Trend Continuation</span></div>
-<div class="info-row"><span class="k">Status</span><span class="v" style="color:var(--yellow)">Waiting for Schwab API</span></div>
-<div style="margin-top:10px;font-size:.78rem;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">Backtest Results</div>
-<div class="backtest-grid">
-<div class="stat"><div class="label">Return</div><div class="value">+26.48%</div></div>
-<div class="stat"><div class="label">Trades</div><div class="value cyan">55</div></div>
-<div class="stat"><div class="label">Win Rate</div><div class="value yellow">38.2%</div></div>
-<div class="stat"><div class="label">Profit Factor</div><div class="value">1.66</div></div>
-<div class="stat"><div class="label">Sharpe</div><div class="value cyan">1.02</div></div>
-<div class="stat"><div class="label">Max DD</div><div class="value red">-13.26%</div></div>
-</div>
-<div style="font-size:.78rem;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin:10px 0 6px">Strategy Parameters</div>
-<div class="param-grid">
-<div class="param"><div class="pk">RSI Period</div><div class="pv">14</div></div>
-<div class="param"><div class="pk">RSI Threshold</div><div class="pv">60</div></div>
-<div class="param"><div class="pk">SMA Fast</div><div class="pv">20</div></div>
-<div class="param"><div class="pk">SMA Slow</div><div class="pv">50</div></div>
-<div class="param"><div class="pk">Stop Loss</div><div class="pv">-8%</div></div>
-<div class="param"><div class="pk">Target 1</div><div class="pv">+12%</div></div>
-<div class="param"><div class="pk">Target 2</div><div class="pv">+25%</div></div>
-<div class="param"><div class="pk">Trailing Stop</div><div class="pv">5%</div></div>
-</div>
-</div>
+<main class="dashboard">
+  <!-- Portfolio Overview -->
+  <div class="card portfolio" style="animation-delay:.05s">
+    <div class="card-title"><span class="icon">📊</span> Portfolio Overview</div>
+    <div class="equity-row">
+      <div class="equity-main">
+        <div class="label">Total Equity</div>
+        <div class="value">$11,307<span style="font-size:1.5rem;color:var(--muted)">.41</span></div>
+      </div>
+      <div class="equity-stat">
+        <div class="label">Daily P/L</div>
+        <div class="value positive">+$147.23</div>
+      </div>
+      <div class="equity-stat">
+        <div class="label">Total Return</div>
+        <div class="value positive">+13.07%</div>
+      </div>
+      <div class="equity-stat">
+        <div class="label">Starting Capital</div>
+        <div class="value" style="color:var(--text)">$10,000</div>
+      </div>
+    </div>
+    <div class="alloc-bar">
+      <div style="width:62%;background:var(--accent)"></div>
+      <div style="width:23%;background:var(--accent2)"></div>
+      <div style="width:15%;background:var(--muted)"></div>
+    </div>
+    <div class="allocation">
+      <div class="alloc-item"><div class="alloc-dot" style="background:var(--accent)"></div>Stocks 62%</div>
+      <div class="alloc-item"><div class="alloc-dot" style="background:var(--accent2)"></div>Crypto 23%</div>
+      <div class="alloc-item"><div class="alloc-dot" style="background:var(--muted)"></div>Cash 15%</div>
+    </div>
+  </div>
 
-<!-- Active Trades -->
-<div class="card wide-card">
-<div class="card-title"><span class="icon">📊</span> Active Trades</div>
-<table>
-<thead><tr><th>Ticker</th><th>Entry</th><th>Current</th><th>P/L %</th><th>Stop Loss</th><th>Target 1</th><th>Target 2</th><th>Status</th></tr></thead>
-<tbody>
-<tr>
-<td style="color:var(--cyan);font-weight:700">RIVN</td>
-<td>$17.45</td>
-<td style="color:var(--green)">$22.08</td>
-<td class="gain">+26.53%</td>
-<td class="loss">$15.80</td>
-<td>$19.50 ✅</td>
-<td style="color:var(--cyan)">$22.00</td>
-<td><span class="badge badge-green">T2 Hit</span></td>
-</tr>
-<tr>
-<td style="color:var(--cyan);font-weight:700">COIN</td>
-<td>$215.30</td>
-<td style="color:var(--green)">$248.20</td>
-<td class="gain">+15.28%</td>
-<td class="loss">$198.00</td>
-<td>$240.00 ✅</td>
-<td style="color:var(--cyan)">$265.00</td>
-<td><span class="badge badge-cyan">Running</span></td>
-</tr>
-<tr>
-<td style="color:var(--cyan);font-weight:700">PLTR</td>
-<td>$24.10</td>
-<td style="color:var(--green)">$25.85</td>
-<td class="gain">+7.26%</td>
-<td class="loss">$22.50</td>
-<td style="color:var(--dim)">$27.00</td>
-<td style="color:var(--dim)">$30.00</td>
-<td><span class="badge badge-cyan">Running</span></td>
-</tr>
-</tbody>
-</table>
-</div>
+  <!-- Key Metrics -->
+  <div class="card metrics" style="animation-delay:.1s">
+    <div class="card-title"><span class="icon">⚡</span> Key Metrics</div>
+    <div class="metric-grid">
+      <div class="metric-box"><div class="val">88</div><div class="lbl">Total Trades</div></div>
+      <div class="metric-box"><div class="val">33%</div><div class="lbl">Win Rate</div></div>
+      <div class="metric-box"><div class="val positive">1.41</div><div class="lbl">Profit Factor</div></div>
+      <div class="metric-box"><div class="val positive">1.93</div><div class="lbl">Sharpe Ratio</div></div>
+    </div>
+  </div>
 
-<!-- Market Scanner -->
-<div class="card">
-<div class="card-title"><span class="icon">📡</span> Stock Radar / Market Scanner</div>
-<div class="gauge"><div class="gauge-label">Market Sentiment</div><div class="gauge-value gain">BULLISH 🟢</div></div>
-<div style="font-size:.75rem;color:var(--dim);margin:8px 0 4px;text-transform:uppercase">Today's Top Movers</div>
-<div class="mover"><span class="ticker">TPH</span><span class="gain">+26.8% ▲</span></div>
-<div class="mover"><span class="ticker">RIVN</span><span class="gain">+26.6% ▲</span></div>
-<div class="mover"><span class="ticker">COIN</span><span class="gain">+16.5% ▲</span></div>
-<div class="mover"><span class="ticker">MARA</span><span class="gain">+14.2% ▲</span></div>
-<div class="mover"><span class="ticker">RIOT</span><span class="gain">+12.8% ▲</span></div>
-<div class="mover"><span class="ticker">SOFI</span><span class="gain">+9.4% ▲</span></div>
-<div class="mover"><span class="ticker">INTC</span><span class="loss">-3.2% ▼</span></div>
-<div style="font-size:.75rem;color:var(--dim);margin:12px 0 4px;text-transform:uppercase">Trending (Twitter/News)</div>
-<div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:4px">
-<span class="badge badge-green">$RIVN</span>
-<span class="badge badge-green">$BTC</span>
-<span class="badge badge-cyan">$COIN</span>
-<span class="badge badge-cyan">$NVDA</span>
-<span class="badge badge-yellow">$PLTR</span>
-<span class="badge badge-orange">$TSLA</span>
-</div>
-</div>
+  <!-- Active Positions -->
+  <div class="card positions" style="animation-delay:.15s">
+    <div class="card-title"><span class="icon">📈</span> Active Positions</div>
+    <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Ticker</th><th>Side</th><th>Entry</th><th>Current</th><th>P/L %</th><th>Strategy</th><th>Opened</th></tr></thead>
+      <tbody>
+        <tr><td class="ticker">NVDA</td><td>LONG</td><td>$132.40</td><td>$138.72</td><td class="positive">+4.78%</td><td><span class="strategy-tag">Trend Cont.</span></td><td>Feb 12</td></tr>
+        <tr><td class="ticker">AAPL</td><td>LONG</td><td>$228.15</td><td>$231.90</td><td class="positive">+1.64%</td><td><span class="strategy-tag">Rel. Strength</span></td><td>Feb 14</td></tr>
+        <tr><td class="ticker">BTC-USD</td><td>LONG</td><td>$96,420</td><td>$97,180</td><td class="positive">+0.79%</td><td><span class="strategy-tag">Crypto Mom.</span></td><td>Feb 15</td></tr>
+        <tr><td class="ticker">MSFT</td><td>SHORT</td><td>$415.30</td><td>$411.85</td><td class="positive">+0.83%</td><td><span class="strategy-tag">Mean Revert</span></td><td>Feb 16</td></tr>
+        <tr><td class="ticker">ETH-USD</td><td>LONG</td><td>$2,710</td><td>$2,685</td><td class="negative">-0.92%</td><td><span class="strategy-tag">Crypto MR</span></td><td>Feb 16</td></tr>
+        <tr><td class="ticker">AMD</td><td>LONG</td><td>$118.50</td><td>$121.35</td><td class="positive">+2.41%</td><td><span class="strategy-tag">Trend Cont.</span></td><td>Feb 10</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
 
-<!-- Twitter Sentiment -->
-<div class="card">
-<div class="card-title"><span class="icon">🐦</span> Twitter Sentiment</div>
-<div style="font-size:.75rem;color:var(--dim);margin-bottom:6px;text-transform:uppercase">Sentiment Breakdown</div>
-<div class="sentiment-bar">
-<div class="bull" style="width:62%">62% Bull</div>
-<div class="neut" style="width:23%">23%</div>
-<div class="bear" style="width:15%">15%</div>
-</div>
-<div style="font-size:.75rem;color:var(--dim);margin:12px 0 6px;text-transform:uppercase">Trending Tickers</div>
-<div class="mover"><span class="ticker">$RIVN</span><span class="gain">Score: 87 🔥</span></div>
-<div class="mover"><span class="ticker">$BTC</span><span class="gain">Score: 82</span></div>
-<div class="mover"><span class="ticker">$COIN</span><span class="gain">Score: 78</span></div>
-<div class="mover"><span class="ticker">$NVDA</span><span class="neutral">Score: 61</span></div>
-<div class="mover"><span class="ticker">$TSLA</span><span class="loss">Score: 34</span></div>
-<div style="font-size:.75rem;color:var(--dim);margin:12px 0 6px;text-transform:uppercase">Key Tweet Alerts</div>
-<div class="tweet-alert"><span class="handle">@unusual_whales</span><span class="time">11:42 AM</span><br>$RIVN unusual call activity detected. 5x avg volume on Feb $20 calls.</div>
-<div class="tweet-alert"><span class="handle">@DeItaone</span><span class="time">10:15 AM</span><br>BREAKING: Bitcoin breaks above $98,000 for the first time since December.</div>
-</div>
+  <!-- Recent Signals -->
+  <div class="card signals" style="animation-delay:.2s">
+    <div class="card-title"><span class="icon">🔔</span> Recent Signals</div>
+    <div class="signal-list">
+      <div class="signal"><span class="signal-type buy">BUY</span><span class="signal-ticker">NVDA</span><span class="signal-strategy">Trend Continuation — breakout above 20d high</span><span class="signal-time">10:32</span></div>
+      <div class="signal"><span class="signal-type sell">SELL</span><span class="signal-ticker">TSLA</span><span class="signal-strategy">Mean Reversion — RSI overbought exit</span><span class="signal-time">10:15</span></div>
+      <div class="signal"><span class="signal-type buy">BUY</span><span class="signal-ticker">BTC</span><span class="signal-strategy">Crypto Momentum — 4h trend confirmed</span><span class="signal-time">09:45</span></div>
+      <div class="signal"><span class="signal-type sell">SELL</span><span class="signal-ticker">AMZN</span><span class="signal-strategy">Relative Strength — dropped below sector median</span><span class="signal-time">09:30</span></div>
+      <div class="signal"><span class="signal-type buy">BUY</span><span class="signal-ticker">MSFT</span><span class="signal-strategy">Mean Reversion — short entry at upper band</span><span class="signal-time">09:15</span></div>
+      <div class="signal"><span class="signal-type buy">BUY</span><span class="signal-ticker">AAPL</span><span class="signal-strategy">Relative Strength — top sector performer</span><span class="signal-time">Yesterday</span></div>
+      <div class="signal"><span class="signal-type sell">SELL</span><span class="signal-ticker">ETH</span><span class="signal-strategy">Crypto Mean Reversion — take profit target hit</span><span class="signal-time">Yesterday</span></div>
+      <div class="signal"><span class="signal-type buy">BUY</span><span class="signal-ticker">AMD</span><span class="signal-strategy">Trend Continuation — strong momentum breakout</span><span class="signal-time">Feb 14</span></div>
+    </div>
+  </div>
 
-<!-- Crypto Prices -->
-<div class="card">
-<div class="card-title"><span class="icon">₿</span> Crypto Prices <span class="badge badge-cyan" style="margin-left:auto;font-size:.6rem" id="crypto-status">LOADING</span></div>
-<div id="crypto-container">
-<div class="crypto-row"><div><div class="name">Bitcoin <span class="symbol">BTC</span></div></div><div><div class="price" id="btc-price">--</div><div class="change" id="btc-change">--</div></div></div>
-<div class="crypto-row"><div><div class="name">Ethereum <span class="symbol">ETH</span></div></div><div><div class="price" id="eth-price">--</div><div class="change" id="eth-change">--</div></div></div>
-<div class="crypto-row"><div><div class="name">Ravencoin <span class="symbol">RVN</span></div></div><div><div class="price" id="rvn-price">--</div><div class="change" id="rvn-change">--</div></div></div>
-</div>
-<div class="refresh-note">Auto-refreshes every 60s · <span id="last-refresh">--</span></div>
-</div>
+  <!-- Strategy Performance -->
+  <div class="card strategies" style="animation-delay:.25s">
+    <div class="card-title"><span class="icon">🎯</span> Strategy Performance</div>
+    <div class="strat-grid">
+      <div class="strat-card">
+        <div class="strat-name">Trend Continuation</div>
+        <div class="strat-stats">
+          <div class="strat-stat"><span class="k">Win Rate</span><span class="v positive">66.7%</span></div>
+          <div class="strat-stat"><span class="k">Return</span><span class="v positive">+$1,243</span></div>
+          <div class="strat-stat"><span class="k">Trades</span><span class="v">18</span></div>
+        </div>
+        <div class="strat-bar"><div class="strat-bar-fill" style="width:67%;background:var(--green)"></div></div>
+      </div>
+      <div class="strat-card">
+        <div class="strat-name">Relative Strength</div>
+        <div class="strat-stats">
+          <div class="strat-stat"><span class="k">Win Rate</span><span class="v" style="color:var(--yellow)">27.5%</span></div>
+          <div class="strat-stat"><span class="k">Return</span><span class="v positive">+$346</span></div>
+          <div class="strat-stat"><span class="k">Trades</span><span class="v">40</span></div>
+        </div>
+        <div class="strat-bar"><div class="strat-bar-fill" style="width:28%;background:var(--yellow)"></div></div>
+      </div>
+      <div class="strat-card">
+        <div class="strat-name">Crypto Momentum</div>
+        <div class="strat-stats">
+          <div class="strat-stat"><span class="k">Win Rate</span><span class="v negative">25.0%</span></div>
+          <div class="strat-stat"><span class="k">Return</span><span class="v negative">-$163</span></div>
+          <div class="strat-stat"><span class="k">Trades</span><span class="v">16</span></div>
+        </div>
+        <div class="strat-bar"><div class="strat-bar-fill" style="width:25%;background:var(--red)"></div></div>
+      </div>
+      <div class="strat-card">
+        <div class="strat-name">Crypto Mean Reversion</div>
+        <div class="strat-stats">
+          <div class="strat-stat"><span class="k">Win Rate</span><span class="v negative">28.6%</span></div>
+          <div class="strat-stat"><span class="k">Return</span><span class="v negative">-$118</span></div>
+          <div class="strat-stat"><span class="k">Trades</span><span class="v">14</span></div>
+        </div>
+        <div class="strat-bar"><div class="strat-bar-fill" style="width:29%;background:var(--red)"></div></div>
+      </div>
+    </div>
+  </div>
 
-<!-- Portfolio Progress -->
-<div class="card" style="grid-column:1/-1">
-<div class="card-title"><span class="icon">🎯</span> Monthly Profit Target</div>
-<div style="display:flex;justify-content:space-between;margin-bottom:8px;font-size:.85rem">
-<span>Current: <span style="color:var(--green);font-weight:700">+$127.43</span> (1.27%)</span>
-<span>Target: <span style="color:var(--cyan);font-weight:700">$500.00</span> (5.00%)</span>
-</div>
-<div style="background:#1c2333;border-radius:10px;height:28px;overflow:hidden;position:relative;border:1px solid var(--border)">
-<div style="background:linear-gradient(90deg,#00ff88,#00d4ff);height:100%;width:25.5%;border-radius:10px;transition:width 1s ease;position:relative;display:flex;align-items:center;justify-content:flex-end;padding-right:8px;font-size:.7rem;font-weight:700;color:#0d1117">25.5%</div>
-</div>
-<div style="display:flex;justify-content:space-between;margin-top:10px;font-size:.75rem;color:var(--dim)">
-<span>📈 Stocks: +$82.10</span>
-<span>₿ Crypto: +$38.22</span>
-<span>⛏️ Mining: +$7.11</span>
-</div>
-<div style="display:flex;gap:12px;margin-top:12px">
-<div style="flex:1;background:#1c2333;border-radius:8px;padding:10px;text-align:center;border:1px solid var(--border)">
-<div style="font-size:.65rem;color:var(--dim);text-transform:uppercase">Daily P/L</div>
-<div style="font-size:1.1rem;font-weight:700;color:var(--green)">+$18.42</div>
-</div>
-<div style="flex:1;background:#1c2333;border-radius:8px;padding:10px;text-align:center;border:1px solid var(--border)">
-<div style="font-size:.65rem;color:var(--dim);text-transform:uppercase">Weekly P/L</div>
-<div style="font-size:1.1rem;font-weight:700;color:var(--green)">+$67.20</div>
-</div>
-<div style="flex:1;background:#1c2333;border-radius:8px;padding:10px;text-align:center;border:1px solid var(--border)">
-<div style="font-size:.65rem;color:var(--dim);text-transform:uppercase">Monthly P/L</div>
-<div style="font-size:1.1rem;font-weight:700;color:var(--green)">+$127.43</div>
-</div>
-<div style="flex:1;background:#1c2333;border-radius:8px;padding:10px;text-align:center;border:1px solid var(--border)">
-<div style="font-size:.65rem;color:var(--dim);text-transform:uppercase">All Time</div>
-<div style="font-size:1.1rem;font-weight:700;color:var(--green)">+$127.43</div>
-</div>
-</div>
-</div>
+  <!-- Mining Status -->
+  <div class="card mining" style="animation-delay:.3s">
+    <div class="card-title"><span class="icon">⛏️</span> Mining Status</div>
+    <div class="gpu-name">RTX 4060 Ti <span class="gpu-online">● ONLINE</span></div>
+    <div class="mining-grid">
+      <div class="mining-stat"><div class="val" style="color:var(--accent)">16.8</div><div class="lbl">MH/s Hashrate</div></div>
+      <div class="mining-stat"><div class="val positive">$0.17</div><div class="lbl">Daily Earnings</div></div>
+      <div class="mining-stat"><div class="val">14d 7h</div><div class="lbl">Uptime</div></div>
+      <div class="mining-stat"><div class="val">62°C</div><div class="lbl">GPU Temp</div></div>
+      <div class="mining-stat"><div class="val">$5.10</div><div class="lbl">Monthly Est.</div></div>
+      <div class="mining-stat"><div class="val">128W</div><div class="lbl">Power Draw</div></div>
+    </div>
+  </div>
 
-<!-- System Status -->
-<div class="card">
-<div class="card-title"><span class="icon">🖥️</span> System Status</div>
-<div class="sys-row"><span class="status-dot green"></span><span class="sys-name">GPU Mining</span><span class="badge badge-green">Active</span></div>
-<div class="sys-row"><span class="status-dot green"></span><span class="sys-name">Stock Radar</span><span class="badge badge-green">Active (M-F 9-4:30 ET)</span></div>
-<div class="sys-row"><span class="status-dot green"></span><span class="sys-name">Twitter Scanner</span><span class="badge badge-green">Active (9:30 AM)</span></div>
-<div class="sys-row"><span class="status-dot orange"></span><span class="sys-name">Schwab API</span><span class="badge badge-orange">Pending Approval</span></div>
-<div class="sys-row"><span class="status-dot yellow"></span><span class="sys-name">Trading Bot</span><span class="badge badge-yellow">Paper Mode</span></div>
-<div class="sys-row"><span class="status-dot green"></span><span class="sys-name">CoinGecko API</span><span class="badge badge-green" id="api-status">Connected</span></div>
-</div>
+  <!-- Market Sentiment -->
+  <div class="card sentiment" style="animation-delay:.35s">
+    <div class="card-title"><span class="icon">🌡️</span> Market Sentiment</div>
+    <div class="gauge-wrap">
+      <div>
+        <div class="gauge">
+          <div class="gauge-bg">
+            <div class="gauge-mask"></div>
+            <div class="gauge-needle" id="needle"></div>
+            <div class="gauge-center"></div>
+          </div>
+        </div>
+        <div class="gauge-labels"><span>Fearful</span><span>Neutral</span><span>Greedy</span></div>
+        <div class="gauge-value">64 <span>/ 100</span></div>
+      </div>
+    </div>
+    <div class="sentiment-note">Aggregated from Twitter/X sentiment analysis • Updated hourly</div>
+  </div>
+</main>
 
-</div>
+<footer class="footer">
+  Trading Command Center v1.0 — Built by <a href="https://github.com/roberthellwig1999-svg">@roberthellwig</a> — Data is simulated (paper mode)
+</footer>
 
 <script>
-// Clock
-function updateClock(){
-const now=new Date();
-document.getElementById('time').textContent=now.toLocaleTimeString('en-US',{hour12:true,hour:'2-digit',minute:'2-digit',second:'2-digit',timeZone:'America/New_York'});
-document.getElementById('date').textContent=now.toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric',timeZone:'America/New_York'})+' ET';
-}
-updateClock();setInterval(updateClock,1000);
+// Animate needle on load
+setTimeout(()=>{document.getElementById('needle').style.transform='rotate(25deg)'},500);
 
-// Crypto prices
-async function fetchCrypto(){
-const s=document.getElementById('crypto-status');
-try{
-s.textContent='UPDATING';s.className='badge badge-yellow';
-const r=await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,ravencoin&vs_currencies=usd&include_24hr_change=true');
-const d=await r.json();
-const fmt=(v,dec=2)=>'$'+v.toLocaleString('en-US',{minimumFractionDigits:dec,maximumFractionDigits:dec});
-const setP=(id,price,change)=>{
-document.getElementById(id+'-price').textContent=fmt(price,price<1?4:2);
-const ce=document.getElementById(id+'-change');
-const pct=change.toFixed(2);
-ce.textContent=(change>=0?'+':'')+pct+'% (24h)';
-ce.className='change '+(change>=0?'gain':'loss');
-};
-setP('btc',d.bitcoin.usd,d.bitcoin.usd_24h_change);
-setP('eth',d.ethereum.usd,d.ethereum.usd_24h_change);
-setP('rvn',d.ravencoin.usd,d.ravencoin.usd_24h_change);
-s.textContent='LIVE';s.className='badge badge-green';
-document.getElementById('api-status').textContent='Connected';
-document.getElementById('last-refresh').textContent=new Date().toLocaleTimeString('en-US',{timeZone:'America/New_York'});
-}catch(e){
-s.textContent='ERROR';s.className='badge badge-red';
-document.getElementById('api-status').textContent='Error';
+// Animate numbers counting up
+document.querySelectorAll('.metric-box .val, .equity-main .value').forEach(el=>{
+  const text=el.textContent;
+  if(text.match(/^[\d.%$+]+$/)){
+    el.style.opacity='0';
+    setTimeout(()=>{el.style.opacity='1';el.style.transition='opacity .5s'},300);
+  }
+});
+
+// Time update
+function updateTime(){
+  const now=new Date();
+  const h=now.getHours(),m=now.getMinutes(),s=now.getSeconds();
+  const pad=n=>n.toString().padStart(2,'0');
+  const timeStr=`${pad(h)}:${pad(m)}:${pad(s)} EST`;
+  const el=document.querySelector('.status-text');
+  if(el)el.innerHTML=`<span class="live-dot"></span>${timeStr}`;
 }
-}
-fetchCrypto();setInterval(fetchCrypto,60000);
-if(sessionStorage.getItem('auth')==='1'){document.getElementById('dashboard').style.display='block';}
+setInterval(updateTime,1000);updateTime();
 </script>
-</div>
 </body>
 </html>
